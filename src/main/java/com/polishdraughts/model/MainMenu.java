@@ -3,18 +3,14 @@ package com.polishdraughts.polishdraughts.model;
 import java.util.ArrayList;
 
 public class MainMenu {
-    private enum MenuOptions {
-        VS_HUMAN, VS_COMPUTER, QUIT
-    }
-
-    private static ArrayList<String> menuOptions;
+    private static final ArrayList<String> menuOptions = new ArrayList<String>();
 
     public static void setMenuOptions(){
         for (MenuOptions menuOption : MenuOptions.values()){
             switch (menuOption) {
-                case VS_HUMAN -> MainMenu.menuOptions.add("Play Human vs Human");
-                case VS_COMPUTER -> MainMenu.menuOptions.add("Play Human vs Computer");
-                case QUIT -> MainMenu.menuOptions.add("Quit");
+                case VS_HUMAN -> MainMenu.menuOptions.add("1. Play Human vs Human");
+                case VS_COMPUTER -> MainMenu.menuOptions.add("2. Play Human vs Computer");
+                case QUIT -> MainMenu.menuOptions.add("3. Quit");
             }
         }
     }

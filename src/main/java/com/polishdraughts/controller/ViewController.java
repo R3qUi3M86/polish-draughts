@@ -8,7 +8,7 @@ import com.polishdraughts.polishdraughts.view.windowView.WindowRenderer;
 import java.util.ArrayList;
 
 
-public class ViewController {
+public abstract class ViewController {
     private static RenderModes renderMode;
     private static Renderer renderer;
 
@@ -31,6 +31,6 @@ public class ViewController {
 
     public static void displayMainMenu(){
         ArrayList<String> menuOptions = MainMenu.getMenuOptions();
-        renderer.renderMainMenu(menuOptions);
+        renderer.renderMainMenu(menuOptions, false);
     }
 }
