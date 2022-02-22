@@ -56,7 +56,7 @@ public final class GameController {
     private void initCheckersGame(){
         gameState = new GameState();
         gameRules = new GameRules();
-        play(new Move());
+        play(new Move(Color.WHITE));
     }
 
     private void play(Move previousMove){
@@ -78,17 +78,17 @@ public final class GameController {
     }
 
     public void tryToPlayMove(Move move){
-        gameRules.setMoveLegality(move);
+        new MoveValidator().setMoveLegality(move, gameState.getGameBoard());
         if (move.isValid()){
             gameState.makeMove(move);
             if (gameRules.gameHasFinished(gameState)){
                 ViewController.getInstance().displayEndGameStatus(gameRules.getGameResult(), gameState);
             } else {
-                if (gameRules.playerCanTakeNextPawn(move)){
+                if (new MoveValidator().playerCanTakeNextPawn(move, gameState.getGameBoard())){
                     play(move);
                 } else {
                     gameRules.switchCurrentPlayer();
-                    play(new Move());
+                    play(new Move(move, gameRules.getCurrentPlayerColor()));
                 }
             }
         } else {

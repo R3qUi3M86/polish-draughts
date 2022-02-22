@@ -2,7 +2,7 @@ package com.polishdraughts.model;
 
 public class GameRules {
     public enum GameResults {
-        TIE, PLAYER1_WON, PLAYER2_WON
+        TIE, WHITE_WINS, BLACK_WINS
     }
 
     private Color currentPlayerColor;
@@ -20,16 +20,16 @@ public class GameRules {
         return currentPlayerColor == Color.BLACK;
     }
 
+    public Color getCurrentPlayerColor(){
+        return currentPlayerColor;
+    }
+
     public void switchCurrentPlayer(){
         currentPlayerColor = Color.getOppositeColor(currentPlayerColor);
     }
 
-    public void setMoveLegality(Move move){
-        move.setValid(true);
-    }
-
     public boolean playerCanTakeNextPawn(Move move){
-        return true;
+        return false;
     }
 
     public boolean gameHasFinished(GameState gameState){

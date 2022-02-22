@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Board {
     private final int[][] board = new int[10][10];
+    private final String[][] boardWithPieces = new String[10][10];
 
     public Board(){
         Color tileColor = Color.WHITE;
@@ -12,9 +13,11 @@ public class Board {
             for (int col = 0; col < 10; col++){
                 if (tileColor == Color.BLACK){
                     board[row][col] = tileNumber;
+                    boardWithPieces[row][col] = "-";
                     tileNumber++;
                 } else {
                     board[row][col] = 0;
+                    boardWithPieces[row][col] = " ";
                 }
                 if (col != 9) {
                     tileColor = Color.getOppositeColor(tileColor);
@@ -25,16 +28,20 @@ public class Board {
 
     public ArrayList<Pawn> setWhitePiecesOnBoard() {
         ArrayList<Pawn> pieces = new ArrayList<>();
-        for (int i = 31; i <= 50; i++) {
-            pieces.add(new Pawn(i, getTileArrIndex(i)));
+        for (int pos = 31; pos <= 50; pos++) {
+            int[] pawnIndex = getTileArrIndex(pos);
+            boardWithPieces[pawnIndex[0]][pawnIndex[1]] = "W";
+            pieces.add(new Pawn(pos, pawnIndex));
         }
         return pieces;
     }
 
     public ArrayList<Pawn> setBlackPiecesOnBoard() {
         ArrayList<Pawn> pieces = new ArrayList<>();
-        for (int i = 1; i <= 20; i++) {
-            pieces.add(new Pawn(i, getTileArrIndex(i)));
+        for (int pos = 1; pos <= 20; pos++) {
+            int[] pawnIndex = getTileArrIndex(pos);
+            boardWithPieces[pawnIndex[0]][pawnIndex[1]] = "B";
+            pieces.add(new Pawn(pos, pawnIndex));
         }
         return pieces;
     }
@@ -54,7 +61,12 @@ public class Board {
         return board[arrIndex[0]][arrIndex[1]];
     }
 
-    public int[][] getBoard() {
+    public int[][] getEmptyBoard() {
         return board;
     }
+
+    public String[][] getBoardWithPieces() {
+        return boardWithPieces;
+    }
+
 }

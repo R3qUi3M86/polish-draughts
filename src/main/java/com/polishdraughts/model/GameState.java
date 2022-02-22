@@ -11,4 +11,8 @@ public class GameState {
     public void makeMove(Move move){
 
     }
+
+    public Board getGameBoard() {
+        return gameBoard;
+    }
 }
