@@ -1,4 +1,4 @@
-package com.polishdraughts.polishdraughts;
+package com.polishdraughts;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

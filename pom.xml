@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.polishdraughts.polishdraughts/com.polishdraughts.polishdraughts.HelloApplication
+                                com.polishdraughts.polishdraughts/com.polishdraughts.HelloApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

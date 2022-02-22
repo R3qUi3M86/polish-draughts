@@ -1,9 +1,13 @@
-package com.polishdraughts.polishdraughts.model;
+package com.polishdraughts.model;
 
 import java.util.ArrayList;
 
 public class MainMenu {
-    private static final ArrayList<String> menuOptions = new ArrayList<String>();
+    public enum MenuOptions {
+        VS_HUMAN, VS_COMPUTER, QUIT
+    }
+
+    private static final ArrayList<String> menuOptions = new ArrayList<>();
 
     public static void setMenuOptions(){
         for (MenuOptions menuOption : MenuOptions.values()){

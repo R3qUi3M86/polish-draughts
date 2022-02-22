@@ -1,2 +1,5 @@
-package com.polishdraughts.controller;public enum PlayerType {
+package com.polishdraughts.model;
+
+public enum PlayerType {
+    HUMAN, COMPUTER
 }

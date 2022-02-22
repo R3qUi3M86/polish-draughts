@@ -1,36 +1,58 @@
-package com.polishdraughts.polishdraughts.controller;
+package com.polishdraughts.controller;
 
-import com.polishdraughts.polishdraughts.model.MainMenu;
-import com.polishdraughts.polishdraughts.view.Renderer;
-import com.polishdraughts.polishdraughts.view.consoleView.ConsoleRenderer;
-import com.polishdraughts.polishdraughts.view.windowView.WindowRenderer;
+import com.polishdraughts.model.GameRules.GameResults;
+import com.polishdraughts.model.GameState;
+import com.polishdraughts.model.MainMenu;
+import com.polishdraughts.model.Move;
+import com.polishdraughts.view.Renderer;
+import com.polishdraughts.view.Renderer.RenderModes;
+import com.polishdraughts.view.consoleView.ConsoleRenderer;
+import com.polishdraughts.view.windowView.WindowRenderer;
 
 import java.util.ArrayList;
 
+public final class ViewController {
+    private static ViewController viewController;
+    private RenderModes renderMode;
+    private Renderer renderer;
 
-public abstract class ViewController {
-    private static RenderModes renderMode;
-    private static Renderer renderer;
+    private ViewController(){}
 
-    private static void setRenderMode(RenderModes renderMode) {
-        ViewController.renderMode = renderMode;
+    public static ViewController getInstance(){
+        if (viewController == null){
+            viewController = new ViewController();
+        }
+        return viewController;
     }
 
-    private static RenderModes getRenderMode(){
+    private RenderModes getRenderMode(){
         return renderMode;
     }
 
-    public static void setToConsoleDisplayMode(){
-        ViewController.setRenderMode(RenderModes.CONSOLE);
-        ViewController.renderer = new ConsoleRenderer();
+    public void setToConsoleDisplayMode(){
+        renderMode = RenderModes.CONSOLE;
+        renderer = new ConsoleRenderer();
     }
-    public static void setToWindowedDisplayMode(){
-        ViewController.setRenderMode(RenderModes.WINDOWED);
-        ViewController.renderer = new WindowRenderer();
+    public void setToWindowedDisplayMode(){
+        renderMode = RenderModes.WINDOWED;
+        renderer = new WindowRenderer();
     }
 
-    public static void displayMainMenu(){
+    public void displayMainMenu(){
         ArrayList<String> menuOptions = MainMenu.getMenuOptions();
         renderer.renderMainMenu(menuOptions, false);
+    }
+
+    public void displayGameState(GameState gameState){
+        renderer.renderGameState(gameState, false);
+    }
+
+    public void askHumanMove(Move previousMove){
+        renderer.askForMoveInput(previousMove);
+    }
+
+    public void displayEndGameStatus(GameResults gameResult, GameState gameState){
+        renderer.renderGameState(gameState, false);
+        renderer.renderFinalScore(gameResult);
     }
 }

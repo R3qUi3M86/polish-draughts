@@ -3,6 +3,6 @@ module com.polishdraughts.polishdraughts {
     requires javafx.fxml;
 
 
-    opens com.polishdraughts.polishdraughts to javafx.fxml;
-    exports com.polishdraughts.polishdraughts;
+    opens com.polishdraughts to javafx.fxml;
+    exports com.polishdraughts;
 }

@@ -1,4 +1,4 @@
-package com.polishdraughts.polishdraughts;
+package com.polishdraughts;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

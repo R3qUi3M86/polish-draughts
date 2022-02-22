@@ -1,4 +1,4 @@
 package com.polishdraughts.model;
 
-public class Turn {
+public class Turns {
 }
