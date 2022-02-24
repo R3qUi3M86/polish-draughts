@@ -14,4 +14,5 @@ public interface Renderer {
     void renderGameState(GameState gameState, boolean invalidInput);
     void askForMoveInput(Move previousMove);
     void renderFinalScore(GameResults gameResult);
+    void pressAnyKeyPromptForBackToMenu();
 }

@@ -1,6 +1,7 @@
 package com.polishdraughts.view.consoleView;
 
 import com.polishdraughts.controller.GameController;
+import com.polishdraughts.controller.ViewController;
 import com.polishdraughts.model.Color;
 import com.polishdraughts.controller.GameRules.GameResults;
 import com.polishdraughts.model.GameState;
@@ -168,5 +169,10 @@ public class ConsoleRenderer implements Renderer {
             case WHITE_WINS -> System.out.println("\nWHITE Player wins the game!");
             case BLACK_WINS -> System.out.println("\nBLACK Player wins the game!");
         }
+    }
+    public void pressAnyKeyPromptForBackToMenu(){
+        Scanner input = new Scanner(System.in);
+        input.nextLine();
+        ViewController.getInstance().displayMainMenu();
     }
 }

@@ -19,7 +19,7 @@ public class GameState {
         setPawnPieces();
         allPieces.add(whitePieces);
         allPieces.add(blackPieces);
-        gameBoard.updateVisualModel(allPieces);
+        updateVisualModel();
     }
 
     public void makeMove(Move move){
@@ -141,6 +141,10 @@ public class GameState {
             takenPieces.add(blackPieces.get(fieldNo));
             blackPieces.remove(fieldNo);
         }
+    }
+
+    public void updateVisualModel(){
+        gameBoard.updateVisualModel(allPieces);
     }
 
     public HashMap<Integer, Pawn> getWhitePieces() {

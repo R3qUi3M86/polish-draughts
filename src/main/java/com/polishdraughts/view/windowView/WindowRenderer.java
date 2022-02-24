@@ -23,4 +23,8 @@ public class WindowRenderer implements Renderer {
     public void renderFinalScore(GameResults gameResult){
 
     }
+
+    public void pressAnyKeyPromptForBackToMenu(){
+
+    }
 }

@@ -82,6 +82,11 @@ public final class GameController {
     }
 
     public void tryToPlayMove(Move move){
+        if (move.getCurrentMove().equals("tie")){
+            gameRules.setTie();
+            ViewController.getInstance().displayEndGameStatus(gameRules.getGameResult(), gameState);
+            return;
+        }
         gameRules.getMoveValidator().validateMove(move, gameState);
         if (move.isValid()){
             gameState.makeMove(move);
@@ -93,6 +98,7 @@ public final class GameController {
                     move.setMoveTakenPiece(false);
                     play(move);
                 } else {
+                    gameRules.checkPawnPromotion(move, gameState);
                     gameRules.switchCurrentPlayer();
                     play(new Move(gameRules.getCurrentPlayerColor(), move));
                 }

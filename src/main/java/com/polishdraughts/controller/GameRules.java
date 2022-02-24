@@ -78,13 +78,32 @@ public class GameRules {
         return false;
     }
 
+    public void checkPawnPromotion(Move move, GameState gameState){
+        Integer tileNo = move.getLastTargetFieldNo();
+        if (move.getMovingPlayerColor() == Color.WHITE && tileNo < 6){
+            gameState.getWhitePieces().get(tileNo).setPromoted(true);
+            gameState.updateVisualModel();
+        } else if (move.getMovingPlayerColor() == Color.BLACK && tileNo > 45){
+            gameState.getBlackPieces().get(tileNo).setPromoted(true);
+            gameState.updateVisualModel();
+        }
+    }
+
     public boolean gameHasFinished(GameState gameState){
-        //TODO Implement this
-        return false;
+        if (gameState.getWhitePieces().isEmpty()){
+            gameResult = GameResults.BLACK_WINS;
+            return true;
+        } else if (gameState.getBlackPieces().isEmpty()){
+            gameResult = GameResults.WHITE_WINS;
+            return true;
+        } else return gameResult == GameResults.TIE;
     }
 
     public GameResults getGameResult(){
-        //TODO Implement this
         return gameResult;
+    }
+
+    public void setTie(){
+        gameResult = GameResults.TIE;
     }
 }

@@ -54,5 +54,6 @@ public final class ViewController {
     public void displayEndGameStatus(GameResults gameResult, GameState gameState){
         renderer.renderGameState(gameState, false);
         renderer.renderFinalScore(gameResult);
+        renderer.pressAnyKeyPromptForBackToMenu();
     }
 }
