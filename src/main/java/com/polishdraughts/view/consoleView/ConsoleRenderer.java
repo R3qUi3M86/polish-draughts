@@ -9,6 +9,7 @@ import com.polishdraughts.model.Move;
 import com.polishdraughts.view.Renderer;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ConsoleRenderer implements Renderer {
@@ -134,8 +135,9 @@ public class ConsoleRenderer implements Renderer {
         System.out.println("Please provide input in format FromFieldNo-ToFieldNo (example: 9-14)");
         System.out.print("Your move input > ");
         Scanner input = new Scanner(System.in);
-        move.setCurrentMove(input.nextLine());
-        GameController.getInstance().tryToPlayMove(move);
+        String inputString = input.nextLine();
+        move.setCurrentMove(inputString);
+        GameController.getInstance().takeGameInput(inputString, move);
     }
 
     private void displayPlayerMove(Move move){

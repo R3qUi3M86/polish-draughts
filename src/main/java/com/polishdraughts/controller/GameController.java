@@ -4,6 +4,7 @@ import com.polishdraughts.model.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public final class GameController {
     private static GameController gameController;
@@ -81,12 +82,21 @@ public final class GameController {
                gameRules.itsBlackTurn() && players.get(Color.BLACK) == PlayerType.HUMAN;
     }
 
-    public void tryToPlayMove(Move move){
-        if (move.getCurrentMove().equals("tie")){
-            gameRules.setTie();
-            ViewController.getInstance().displayEndGameStatus(gameRules.getGameResult(), gameState);
-            return;
+    public void takeGameInput(String inputString, Move move) {
+        if (Objects.equals(inputString, "tie")) {
+            GameController.getInstance().tieGame();
+        } else {
+            move.setCurrentMove(inputString);
+            GameController.getInstance().tryToPlayMove(move);
         }
+    }
+
+    public void tieGame(){
+        gameRules.setTie();
+        ViewController.getInstance().displayEndGameStatus(gameRules.getGameResult(), gameState);
+    }
+
+    public void tryToPlayMove(Move move){
         gameRules.getMoveValidator().validateMove(move, gameState);
         if (move.isValid()){
             gameState.makeMove(move);
