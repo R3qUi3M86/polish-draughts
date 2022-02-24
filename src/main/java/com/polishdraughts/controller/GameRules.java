@@ -1,10 +1,13 @@
-package com.polishdraughts.model;
+package com.polishdraughts.controller;
+
+import com.polishdraughts.model.*;
 
 public class GameRules {
     public enum GameResults {
         TIE, WHITE_WINS, BLACK_WINS
     }
 
+    private MoveValidator moveValidator = new MoveValidator();
     private Color currentPlayerColor;
     private GameResults gameResult;
 
@@ -20,6 +23,14 @@ public class GameRules {
         return currentPlayerColor == Color.BLACK;
     }
 
+    public MoveValidator getMoveValidator() {
+        return moveValidator;
+    }
+
+    public void setMoveValidator(MoveValidator moveValidator) {
+        this.moveValidator = moveValidator;
+    }
+
     public Color getCurrentPlayerColor(){
         return currentPlayerColor;
     }
@@ -28,7 +39,7 @@ public class GameRules {
         currentPlayerColor = Color.getOppositeColor(currentPlayerColor);
     }
 
-    public boolean playerCanTakeNextPawn(Move move){
+    public boolean playerCanTakeNextPawn(int pawnSquare, GameState gameState){
         return false;
     }
 

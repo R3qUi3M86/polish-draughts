@@ -1,5 +1,7 @@
 package com.polishdraughts.model;
 
+import com.polishdraughts.controller.GameRules;
+
 public class AICore {
     private Color aiColor;
 

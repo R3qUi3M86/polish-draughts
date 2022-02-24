@@ -1,12 +1,17 @@
 package com.polishdraughts.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Board {
     private final int[][] board = new int[10][10];
     private final String[][] boardWithPieces = new String[10][10];
 
     public Board(){
+        setEmptyBoards();
+    }
+    
+    private void setEmptyBoards(){
         Color tileColor = Color.WHITE;
         int tileNumber = 1;
         for (int row = 0; row < 10; row++){
@@ -24,26 +29,6 @@ public class Board {
                 }
             }
         }
-    }
-
-    public ArrayList<Pawn> setWhitePiecesOnBoard() {
-        ArrayList<Pawn> pieces = new ArrayList<>();
-        for (int pos = 31; pos <= 50; pos++) {
-            int[] pawnIndex = getTileArrIndex(pos);
-            boardWithPieces[pawnIndex[0]][pawnIndex[1]] = "W";
-            pieces.add(new Pawn(pos, pawnIndex));
-        }
-        return pieces;
-    }
-
-    public ArrayList<Pawn> setBlackPiecesOnBoard() {
-        ArrayList<Pawn> pieces = new ArrayList<>();
-        for (int pos = 1; pos <= 20; pos++) {
-            int[] pawnIndex = getTileArrIndex(pos);
-            boardWithPieces[pawnIndex[0]][pawnIndex[1]] = "B";
-            pieces.add(new Pawn(pos, pawnIndex));
-        }
-        return pieces;
     }
 
     public int[] getTileArrIndex(int fieldNo){
@@ -68,5 +53,42 @@ public class Board {
     public String[][] getBoardWithPieces() {
         return boardWithPieces;
     }
+
+    public void updateBoardPieces(ArrayList<HashMap<Integer, Pawn>> BlackAndWhitePieces){
+        setEmptyBoards();
+        for (HashMap<Integer, Pawn> piecesSet : BlackAndWhitePieces) {
+            piecesSet.forEach((fieldNo, pawn) -> {
+                int[] fieldIndex = getTileArrIndex(fieldNo);
+                Color pawnColor = pawn.getPawnColor();
+                if (pawnColor == Color.WHITE){
+                    if (pawn.isPromoted()){
+                        boardWithPieces[fieldIndex[0]][fieldIndex[1]] = "WK";
+                    } else {
+                        boardWithPieces[fieldIndex[0]][fieldIndex[1]] = "W";
+                    }
+                } else {
+                    if (pawn.isPromoted()) {
+                        boardWithPieces[fieldIndex[0]][fieldIndex[1]] = "BK";
+                    } else {
+                        boardWithPieces[fieldIndex[0]][fieldIndex[1]] = "B";
+                    }
+                }
+            });
+        }
+    }
+
+    public boolean fieldIsEmpty(Integer fieldNo){
+        int[] fieldIndex = getTileArrIndex(fieldNo);
+        return boardWithPieces[fieldIndex[0]][fieldIndex[1]].equals("-");
+    }
+
+    public Integer[] getStraightLineFields(int moveFrom) {
+        return new Integer[2];
+    }
+
+    public boolean fieldIsAdjacent(int moveFrom, int moveTo) {
+        return true;
+    }
+
 
 }

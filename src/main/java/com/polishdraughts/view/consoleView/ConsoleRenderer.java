@@ -2,7 +2,7 @@ package com.polishdraughts.view.consoleView;
 
 import com.polishdraughts.controller.GameController;
 import com.polishdraughts.model.Color;
-import com.polishdraughts.model.GameRules.GameResults;
+import com.polishdraughts.controller.GameRules.GameResults;
 import com.polishdraughts.model.GameState;
 import com.polishdraughts.model.Move;
 import com.polishdraughts.view.Renderer;
@@ -143,7 +143,7 @@ public class ConsoleRenderer implements Renderer {
         } else {
             System.out.print("Black ");
         }
-        if (move.isTakingMove()){
+        if (move.moveTakes()){
             System.out.print("takes: ");
         } else {
             System.out.print("moves: ");
@@ -157,8 +157,8 @@ public class ConsoleRenderer implements Renderer {
             case NOT_SELECTED_OWN_PIECE -> System.out.println("You have not selected your piece to move!");
             case INVALID_TARGET_SQUARE -> System.out.println("Target square is invalid!");
             case NEEDS_TO_TAKE -> System.out.println("You must play a taking move!");
-            case NOT_MOVED_WITH_SAME_PIECE -> System.out.println("You must move with the same piece! Last move: "
-                                                                  + move.getLastMove());
+            case NOT_MOVED_WITH_SAME_PIECE -> System.out.println("You must move with the same piece! Last move to: "
+                                                                  + move.getLastTargetFieldNo());
         }
     }
 

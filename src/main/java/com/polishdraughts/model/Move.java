@@ -1,19 +1,24 @@
 package com.polishdraughts.model;
 
+import java.util.ArrayList;
+
 public class Move {
     public enum InvalidMoveType {
         WRONG_INPUT_FORMAT, NOT_SELECTED_OWN_PIECE, INVALID_TARGET_SQUARE, NEEDS_TO_TAKE, NOT_MOVED_WITH_SAME_PIECE
     }
 
-    private boolean newMove = true;
     private final Color movingPlayerColor;
-    private boolean validMove = true;
-    private boolean takingMove = false;
-    private boolean chainedMove = false;
     private InvalidMoveType invalidType;
+    private boolean newMove = true;
+    private boolean validMove = true;
+    private boolean moveTakes = false;
+    private boolean chainedMove = false;
+    private Integer moveFrom;
+    private Integer moveTo;
     private Move opponentMove;
     private String lastMove;
     private String currentMove;
+    private final ArrayList<Integer> targetFieldMoves = new ArrayList<>();
 
     public Move(Color movingPlayerColor){
         this.movingPlayerColor = movingPlayerColor;
@@ -36,12 +41,12 @@ public class Move {
         return movingPlayerColor;
     }
 
-    public boolean isTakingMove() {
-        return takingMove;
+    public boolean moveTakes() {
+        return moveTakes;
     }
 
-    public void setTakingMove(boolean takingMove) {
-        this.takingMove = takingMove;
+    public void setMoveTakes(boolean moveTakes) {
+        this.moveTakes = moveTakes;
     }
 
     public boolean isChainedMove() {
@@ -50,6 +55,22 @@ public class Move {
 
     public void setChainedMove(boolean chainedMove) {
         this.chainedMove = chainedMove;
+    }
+
+    public Integer getMoveFrom() {
+        return moveFrom;
+    }
+
+    public void setMoveFrom(Integer moveFrom) {
+        this.moveFrom = moveFrom;
+    }
+
+    public Integer getMoveTo() {
+        return moveTo;
+    }
+
+    public void setMoveTo(Integer moveTo) {
+        this.moveTo = moveTo;
     }
 
     public boolean isValid(){
@@ -82,5 +103,13 @@ public class Move {
 
     public void setCurrentMove(String currentMove) {
         this.currentMove = currentMove;
+    }
+
+    public Integer getLastTargetFieldNo(){
+        return targetFieldMoves.get(targetFieldMoves.size()-1);
+    }
+
+    public void addMoveToTargetFieldMoves(Integer targetField){
+        targetFieldMoves.add(targetField);
     }
 }

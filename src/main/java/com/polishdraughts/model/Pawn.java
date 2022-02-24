@@ -2,27 +2,25 @@ package com.polishdraughts.model;
 
 public class Pawn {
     private final Color pawnColor;
-    private boolean isPromoted;
-    private int[] boardIndex;
+    private boolean isPromoted = false;
 
-    public Pawn(int pawnPos, int[] boardIndex) {
+    public Pawn(int pawnPos) {
         if (pawnPos > 30) {
             pawnColor = Color.WHITE;
         } else {
             pawnColor = Color.BLACK;
         }
-        this.boardIndex = boardIndex;
     }
 
     public Color getPawnColor() {
         return pawnColor;
     }
 
-    public int[] getBoardIndex() {
-        return boardIndex;
+    public boolean isPromoted() {
+        return isPromoted;
     }
 
-    public void setBoardIndex(int[] boardIndex) {
-        this.boardIndex = boardIndex;
+    public void setPromoted(boolean promoted) {
+        isPromoted = promoted;
     }
 }

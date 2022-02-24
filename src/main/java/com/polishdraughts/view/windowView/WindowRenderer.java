@@ -1,6 +1,6 @@
 package com.polishdraughts.view.windowView;
 
-import com.polishdraughts.model.GameRules.GameResults;
+import com.polishdraughts.controller.GameRules.GameResults;
 import com.polishdraughts.model.GameState;
 import com.polishdraughts.model.Move;
 import com.polishdraughts.view.Renderer;

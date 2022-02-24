@@ -78,13 +78,14 @@ public final class GameController {
     }
 
     public void tryToPlayMove(Move move){
-        new MoveValidator().setMoveLegality(move, gameState.getGameBoard());
+        gameRules.getMoveValidator().validateMove(move, gameState);
         if (move.isValid()){
             gameState.makeMove(move);
             if (gameRules.gameHasFinished(gameState)){
                 ViewController.getInstance().displayEndGameStatus(gameRules.getGameResult(), gameState);
             } else {
-                if (new MoveValidator().playerCanTakeNextPawn(move, gameState.getGameBoard())){
+                Integer lastTargetField = move.getTargetFieldMoves().get(move.getTargetFieldMoves().size()-1);
+                if (gameRules.playerCanTakeNextPawn(lastTargetField, gameState)){
                     play(move);
                 } else {
                     gameRules.switchCurrentPlayer();
