@@ -1,6 +1,7 @@
 package com.polishdraughts.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Board {
@@ -54,7 +55,7 @@ public class Board {
         return boardWithPieces;
     }
 
-    public void updateBoardPieces(ArrayList<HashMap<Integer, Pawn>> BlackAndWhitePieces){
+    public void updateVisualModel(ArrayList<HashMap<Integer, Pawn>> BlackAndWhitePieces){
         setEmptyBoards();
         for (HashMap<Integer, Pawn> piecesSet : BlackAndWhitePieces) {
             piecesSet.forEach((fieldNo, pawn) -> {
@@ -82,13 +83,55 @@ public class Board {
         return boardWithPieces[fieldIndex[0]][fieldIndex[1]].equals("-");
     }
 
-    public Integer[] getStraightLineFields(int moveFrom) {
-        return new Integer[2];
+    public Integer[] getFieldsLineInMoveDir(Integer moveFrom, Integer moveTo){
+        int[] moveFromIndex = getTileArrIndex(moveFrom);
+        int[] moveToIndex = getTileArrIndex(moveTo);
+        Integer[] moveDirFields = new Integer[9];
+
+        int intRowDir = 1;
+        int intColDir = 1;
+
+        if (moveToIndex[0] < moveFromIndex[0]){
+            intRowDir = -1;
+        } else if (moveToIndex[0] == moveFromIndex[0]){
+            return moveDirFields;
+        }
+        if (moveToIndex[1] < moveFromIndex[1]){
+            intColDir = -1;
+        } else if (moveToIndex[1] == moveFromIndex[1]){
+            return moveDirFields;
+        }
+
+        for (int i = 1; i < 10; i++){
+            if(moveFromIndex[0]+(i*intRowDir) < 10 && moveFromIndex[1]+(i*intColDir) < 10 &&
+                    moveFromIndex[0]+(i*intRowDir) >= 0 && moveFromIndex[1]+(i*intColDir) >= 0 ){
+                moveDirFields[i-1] = board[moveFromIndex[0]+(i*intRowDir)][moveFromIndex[1]+(i*intColDir)];
+            } else {
+                return moveDirFields;
+            }
+        }
+        return moveDirFields;
     }
 
-    public boolean fieldIsAdjacent(int moveFrom, int moveTo) {
-        return true;
+    public ArrayList<Integer> getAdjacentFields(Integer fieldNo){
+        ArrayList<Integer> adjacentFields = new ArrayList<>();
+        int[] fieldIndex = getTileArrIndex(fieldNo);
+        if (fieldIndex[0]+1 < 10){
+            if (fieldIndex[1]+1 < 10){
+                adjacentFields.add(getFieldNo(new int[]{fieldIndex[0]+1, fieldIndex[1]+1}));
+            }
+            if (fieldIndex[1]-1 >= 0){
+                adjacentFields.add(getFieldNo(new int[]{fieldIndex[0]+1, fieldIndex[1]-1}));
+            }
+        }
+        if (fieldIndex[0]-1 >= 0){
+            if (fieldIndex[1]+1 < 10){
+                adjacentFields.add(getFieldNo(new int[]{fieldIndex[0]-1, fieldIndex[1]+1}));
+            }
+            if (fieldIndex[1]-1 >= 0){
+                adjacentFields.add(getFieldNo(new int[]{fieldIndex[0]-1, fieldIndex[1]-1}));
+            }
+        }
+        return adjacentFields;
     }
-
-
 }

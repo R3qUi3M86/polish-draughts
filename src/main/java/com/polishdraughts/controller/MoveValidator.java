@@ -1,9 +1,6 @@
 package com.polishdraughts.controller;
 
-import com.polishdraughts.model.Board;
-import com.polishdraughts.model.GameState;
-import com.polishdraughts.model.Move;
-import com.polishdraughts.model.Pawn;
+import com.polishdraughts.model.*;
 import com.polishdraughts.util.Utilities;
 
 import java.util.Objects;
@@ -70,40 +67,44 @@ public class MoveValidator {
             if (move.moveTakes()){
                 setMoveValid(move);
             } else {
-                if (moveHasToTake(move, gameState)){
+                GameRules gameRules = GameController.getInstance().getGameRules();
+                if (move.isChainedMove() || gameRules.playerHasToTake(gameState)){
                     setMoveInvalid(move, Move.InvalidMoveType.NEEDS_TO_TAKE);
                 } else {
                     setMoveValid(move);
                 }
             }
+        } else {
+            setMoveInvalid(move, Move.InvalidMoveType.INVALID_TARGET_SQUARE);
         }
     }
 
     private boolean targetSquareIsValid(Move move, GameState gameState){
         Board gameBoard = gameState.getGameBoard();
-        int moveFrom = move.getMoveFrom();
-        int moveTo = move.getMoveTo();
-        Integer[] straightLineFields = gameBoard.getStraightLineFields(moveFrom);
-        if (gameBoard.fieldIsEmpty(moveTo) && arrayContains(straightLineFields, moveFrom)) {
-            if (!gameBoard.fieldIsAdjacent(moveFrom, moveTo)) {
-                if (movingPawn.isPromoted()) {
-                    if (gameState.moveJumpsOneFar(moveFrom, moveTo, straightLineFields)) {
-                        move.setMoveTakes(true);
-                        return true;
-                    } else return false;
-                } else if (gameState.moveJumpsOneNear(moveFrom, moveTo, straightLineFields)){
+        Integer moveFrom = move.getMoveFrom();
+        Integer moveTo = move.getMoveTo();
+        Integer[] moveDirFields = gameBoard.getFieldsLineInMoveDir(moveFrom, moveTo);
+        if (gameBoard.fieldIsEmpty(moveTo) && arrayContains(moveDirFields, moveTo)) {
+            if (movingPawn.isPromoted()) {
+                if (gameState.moveJumpsOneFar(move, moveDirFields)) {
                     move.setMoveTakes(true);
                     return true;
-                } else return false;
-            }
-            return true;
+                } else return gameState.moveDoesNotJumpOver(move, moveDirFields);
+            } else if (gameState.moveJumpsOneNear(move, moveDirFields)){
+                move.setMoveTakes(true);
+                return true;
+            } else return moveTo.equals(moveDirFields[0]) && moveIsForward(move);
         }
         return false;
     }
 
-    private boolean moveHasToTake(Move move, GameState gameState){
-        //Implement function
-        return true;
+    private boolean moveIsForward(Move move){
+        Color playerColor = move.getMovingPlayerColor();
+        Integer moveFrom = move.getMoveFrom();
+        Integer moveTo = move.getMoveTo();
+        if (playerColor == Color.WHITE && moveFrom > moveTo){
+            return true;
+        } else return playerColor == Color.BLACK && moveFrom < moveTo;
     }
 
     private void setMoveInvalid(Move move, Move.InvalidMoveType invalidMoveType){
@@ -116,6 +117,5 @@ public class MoveValidator {
 
     private void setMoveValid(Move move){
         move.setValid(true);
-        // Implement rest of function
     }
 }

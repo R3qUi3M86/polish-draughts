@@ -11,8 +11,10 @@ public class Move {
     private InvalidMoveType invalidType;
     private boolean newMove = true;
     private boolean validMove = true;
-    private boolean moveTakes = false;
     private boolean chainedMove = false;
+    private boolean moveTakes = false;
+    private boolean moveTakenPiece = false;
+    private Integer takenPawnFieldNo;
     private Integer moveFrom;
     private Integer moveTo;
     private Move opponentMove;
@@ -23,7 +25,7 @@ public class Move {
     public Move(Color movingPlayerColor){
         this.movingPlayerColor = movingPlayerColor;
     }
-    public Move(Move opponentMove, Color movingPlayerColor){
+    public Move(Color movingPlayerColor, Move opponentMove){
         this.movingPlayerColor = movingPlayerColor;
         this.opponentMove = opponentMove;
     }
@@ -41,6 +43,14 @@ public class Move {
         return movingPlayerColor;
     }
 
+    public boolean isChainedMove() {
+        return chainedMove;
+    }
+
+    public void setChainedMove(boolean chainedMove) {
+        this.chainedMove = chainedMove;
+    }
+
     public boolean moveTakes() {
         return moveTakes;
     }
@@ -49,12 +59,20 @@ public class Move {
         this.moveTakes = moveTakes;
     }
 
-    public boolean isChainedMove() {
-        return chainedMove;
+    public boolean moveTakenPiece() {
+        return moveTakenPiece;
     }
 
-    public void setChainedMove(boolean chainedMove) {
-        this.chainedMove = chainedMove;
+    public void setMoveTakenPiece(boolean moveTakenPiece) {
+        this.moveTakenPiece = moveTakenPiece;
+    }
+
+    public Integer getTakenPawnFieldNo() {
+        return takenPawnFieldNo;
+    }
+
+    public void setTakenPawnFieldNo(Integer takenPawnFieldNo) {
+        this.takenPawnFieldNo = takenPawnFieldNo;
     }
 
     public Integer getMoveFrom() {
@@ -97,8 +115,20 @@ public class Move {
         return lastMove;
     }
 
-    public void setLastMove(String lastMove) {
-        this.lastMove = lastMove;
+    public void setLastMove() {
+        if (lastMove != null){
+            if(moveTakes){
+                lastMove = lastMove.concat("x").concat(moveTo.toString());
+            } else {
+                lastMove = lastMove.concat("-").concat(moveTo.toString());
+            }
+        } else {
+            if (moveTakes){
+                lastMove = moveFrom.toString() + "x" + moveTo.toString();
+            } else {
+                lastMove = currentMove;
+            }
+        }
     }
 
     public void setCurrentMove(String currentMove) {

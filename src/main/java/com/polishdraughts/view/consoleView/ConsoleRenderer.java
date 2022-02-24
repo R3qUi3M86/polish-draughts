@@ -143,7 +143,7 @@ public class ConsoleRenderer implements Renderer {
         } else {
             System.out.print("Black ");
         }
-        if (move.moveTakes()){
+        if (move.moveTakenPiece()){
             System.out.print("takes: ");
         } else {
             System.out.print("moves: ");

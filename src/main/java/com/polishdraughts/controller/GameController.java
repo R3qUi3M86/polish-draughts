@@ -53,6 +53,10 @@ public final class GameController {
         initCheckersGame();
     }
 
+    public GameRules getGameRules() {
+        return gameRules;
+    }
+
     private void initCheckersGame(){
         gameState = new GameState();
         gameRules = new GameRules();
@@ -84,12 +88,13 @@ public final class GameController {
             if (gameRules.gameHasFinished(gameState)){
                 ViewController.getInstance().displayEndGameStatus(gameRules.getGameResult(), gameState);
             } else {
-                Integer lastTargetField = move.getTargetFieldMoves().get(move.getTargetFieldMoves().size()-1);
-                if (gameRules.playerCanTakeNextPawn(lastTargetField, gameState)){
+                if (move.moveTakenPiece() && gameRules.playerCanTakeNextPawn(move.getLastTargetFieldNo(), gameState)){
+                    move.setChainedMove(true);
+                    move.setMoveTakenPiece(false);
                     play(move);
                 } else {
                     gameRules.switchCurrentPlayer();
-                    play(new Move(move, gameRules.getCurrentPlayerColor()));
+                    play(new Move(gameRules.getCurrentPlayerColor(), move));
                 }
             }
         } else {
