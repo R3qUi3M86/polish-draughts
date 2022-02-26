@@ -100,6 +100,7 @@ public class GameRules {
     }
 
     public GameResults getGameResult(){
+        currentPlayerColor = PieceColor.NONE;
         return gameResult;
     }
 

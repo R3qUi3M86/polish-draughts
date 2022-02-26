@@ -142,6 +142,8 @@ public class WindowRenderer implements Renderer {
     }
 
     public void renderFinalScore(GameResults gameResult) {
+        gameScene.lookup("#tieButton").setDisable(true);
+        gameScene.lookup("#tieButton").setVisible(false);
         switch (gameResult){
             case TIE -> windowGameController.setInfoPanelText("It's a TIE!");
             case WHITE_WINS -> windowGameController.setInfoPanelText("WHITE Player wins!");

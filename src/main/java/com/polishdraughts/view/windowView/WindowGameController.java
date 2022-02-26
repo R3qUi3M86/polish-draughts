@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 
 public class WindowGameController {
@@ -25,9 +24,7 @@ public class WindowGameController {
 
     @FXML
     public void endGameAsTie(ActionEvent actionEvent) {
-        tieButton.setDisable(true);
-        tieButton.setVisible(false);
-        GameController.getInstance().takeGameInput("tie", new Move(PieceColor.WHITE));
+        GameController.getInstance().takeGameInput("tie", new Move(PieceColor.NONE));
     }
 
     public void setInfoPanelText(String text){
