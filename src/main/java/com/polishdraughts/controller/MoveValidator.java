@@ -99,12 +99,12 @@ public class MoveValidator {
     }
 
     private boolean moveIsForward(Move move){
-        Color playerColor = move.getMovingPlayerColor();
+        PieceColor playerColor = move.getMovingPlayerColor();
         Integer moveFrom = move.getMoveFrom();
         Integer moveTo = move.getMoveTo();
-        if (playerColor == Color.WHITE && moveFrom > moveTo){
+        if (playerColor == PieceColor.WHITE && moveFrom > moveTo){
             return true;
-        } else return playerColor == Color.BLACK && moveFrom < moveTo;
+        } else return playerColor == PieceColor.BLACK && moveFrom < moveTo;
     }
 
     private void setMoveInvalid(Move move, Move.InvalidMoveType invalidMoveType){

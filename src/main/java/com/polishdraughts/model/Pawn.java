@@ -1,18 +1,18 @@
 package com.polishdraughts.model;
 
 public class Pawn {
-    private final Color pawnColor;
+    private final PieceColor pawnColor;
     private boolean isPromoted = false;
 
     public Pawn(int pawnPos) {
         if (pawnPos > 30) {
-            pawnColor = Color.WHITE;
+            pawnColor = PieceColor.WHITE;
         } else {
-            pawnColor = Color.BLACK;
+            pawnColor = PieceColor.BLACK;
         }
     }
 
-    public Color getPawnColor() {
+    public PieceColor getPawnColor() {
         return pawnColor;
     }
 

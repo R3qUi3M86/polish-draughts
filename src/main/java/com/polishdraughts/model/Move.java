@@ -7,7 +7,7 @@ public class Move {
         WRONG_INPUT_FORMAT, NOT_SELECTED_OWN_PIECE, INVALID_TARGET_SQUARE, NEEDS_TO_TAKE, NOT_MOVED_WITH_SAME_PIECE
     }
 
-    private final Color movingPlayerColor;
+    private final PieceColor movingPlayerColor;
     private InvalidMoveType invalidType;
     private boolean newMove = true;
     private boolean validMove = true;
@@ -22,10 +22,10 @@ public class Move {
     private String currentMove;
     private final ArrayList<Integer> targetFieldMoves = new ArrayList<>();
 
-    public Move(Color movingPlayerColor){
+    public Move(PieceColor movingPlayerColor){
         this.movingPlayerColor = movingPlayerColor;
     }
-    public Move(Color movingPlayerColor, Move opponentMove){
+    public Move(PieceColor movingPlayerColor, Move opponentMove){
         this.movingPlayerColor = movingPlayerColor;
         this.opponentMove = opponentMove;
     }
@@ -39,7 +39,7 @@ public class Move {
         newMove = false;
     }
 
-    public Color getMovingPlayerColor() {
+    public PieceColor getMovingPlayerColor() {
         return movingPlayerColor;
     }
 

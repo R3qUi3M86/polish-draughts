@@ -1,28 +1,73 @@
 package com.polishdraughts.view.windowView;
-import com.polishdraughts.PolishDraughtsWindowed;
 import com.polishdraughts.controller.GameController;
-import com.polishdraughts.model.Color;
+import com.polishdraughts.model.PieceColor;
 import com.polishdraughts.model.Move;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.GridPane;
 
 public class WindowGameController {
+    @FXML
+    private GridPane boardGrid;
     @FXML
     private Button tieButton;
     @FXML
     private Label infoPanel;
 
+    private double[] dragDelta;
+    private Move previousMove;
+    private String startFieldNo;
+    private String endFieldNo = "";
+
     @FXML
     public void endGameAsTie(ActionEvent actionEvent) {
         tieButton.setDisable(true);
         tieButton.setVisible(false);
-        GameController.getInstance().takeGameInput("tie", new Move(Color.WHITE));
+        GameController.getInstance().takeGameInput("tie", new Move(PieceColor.WHITE));
     }
 
     public void setInfoPanelText(String text){
         infoPanel.setText(text);
+    }
+
+    public void makeDraggable(Node node) {
+        node.setOnMousePressed(mouseEvent -> {
+            dragDelta = new double[]{mouseEvent.getSceneX(), mouseEvent.getSceneY()};
+            startFieldNo = node.getId();
+            node.toFront();
+            node.setMouseTransparent(true);
+            mouseEvent.consume();
+        });
+
+        node.setOnMouseDragged(mouseEvent -> {
+            node.setTranslateX(mouseEvent.getSceneX() - this.dragDelta[0]);
+            node.setTranslateY(mouseEvent.getSceneY() - this.dragDelta[1]);
+            mouseEvent.consume();
+        });
+
+        node.setOnDragDetected(evt -> {
+            evt.consume();
+            node.startFullDrag();
+        });
+
+        node.setOnMouseReleased(event -> {
+            node.setMouseTransparent(false);
+            event.consume();
+            GameController.getInstance().takeGameInput(startFieldNo+"-"+endFieldNo, previousMove);
+        });
+    }
+
+    public void addDropzoneEnterListener(Node node){
+        node.setOnMouseDragEntered(event -> {
+            endFieldNo = node.getId();
+        });
+    }
+
+    public void setPreviousMove(Move previousMove) {
+        this.previousMove = previousMove;
     }
 }

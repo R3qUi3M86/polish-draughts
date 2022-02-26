@@ -10,31 +10,31 @@ public class GameRules {
     }
 
     private final MoveValidator moveValidator = new MoveValidator();
-    private Color currentPlayerColor;
+    private PieceColor currentPlayerColor;
     private GameResults gameResult;
 
     public GameRules(){
-        currentPlayerColor = Color.WHITE;
+        currentPlayerColor = PieceColor.WHITE;
     }
 
     public boolean itsWhiteTurn(){
-        return currentPlayerColor == Color.WHITE;
+        return currentPlayerColor == PieceColor.WHITE;
     }
 
     public boolean itsBlackTurn(){
-        return currentPlayerColor == Color.BLACK;
+        return currentPlayerColor == PieceColor.BLACK;
     }
 
     public MoveValidator getMoveValidator() {
         return moveValidator;
     }
 
-    public Color getCurrentPlayerColor(){
+    public PieceColor getCurrentPlayerColor(){
         return currentPlayerColor;
     }
 
     public void switchCurrentPlayer(){
-        currentPlayerColor = Color.getOppositeColor(currentPlayerColor);
+        currentPlayerColor = PieceColor.getOppositeColor(currentPlayerColor);
     }
 
     public boolean playerCanTakeNextPawn(Integer moveFrom, GameState gameState){
@@ -62,7 +62,7 @@ public class GameRules {
     }
 
     public boolean playerHasToTake(GameState gameState){
-        if (currentPlayerColor == Color.WHITE){
+        if (currentPlayerColor == PieceColor.WHITE){
             for (Integer playerPawnField : gameState.getWhitePieces().keySet()){
                 if (playerCanTakeNextPawn(playerPawnField, gameState)){
                     return true;
@@ -80,10 +80,10 @@ public class GameRules {
 
     public void checkPawnPromotion(Move move, GameState gameState){
         Integer tileNo = move.getLastTargetFieldNo();
-        if (move.getMovingPlayerColor() == Color.WHITE && tileNo < 6){
+        if (move.getMovingPlayerColor() == PieceColor.WHITE && tileNo < 6){
             gameState.getWhitePieces().get(tileNo).setPromoted(true);
             gameState.updateVisualModel();
-        } else if (move.getMovingPlayerColor() == Color.BLACK && tileNo > 45){
+        } else if (move.getMovingPlayerColor() == PieceColor.BLACK && tileNo > 45){
             gameState.getBlackPieces().get(tileNo).setPromoted(true);
             gameState.updateVisualModel();
         }

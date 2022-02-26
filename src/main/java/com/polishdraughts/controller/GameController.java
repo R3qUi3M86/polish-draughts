@@ -10,7 +10,7 @@ public final class GameController {
     private static GameController gameController;
     private GameRules gameRules;
     private AICore aiCore;
-    private final Map<Color, PlayerType> players = new HashMap<>();
+    private final Map<PieceColor, PlayerType> players = new HashMap<>();
     private GameState gameState;
 
     private GameController(){}
@@ -36,20 +36,20 @@ public final class GameController {
     }
 
     private void startPlayerVsPlayerGame(){
-        players.put(Color.WHITE, PlayerType.HUMAN);
-        players.put(Color.BLACK, PlayerType.HUMAN);
+        players.put(PieceColor.WHITE, PlayerType.HUMAN);
+        players.put(PieceColor.BLACK, PlayerType.HUMAN);
         initCheckersGame();
     }
 
     private void startPlayerVsAIGame(){
         if ((int)((Math.random() * (3 - 1)) + 1) == 1){
-            players.put(Color.WHITE, PlayerType.HUMAN);
-            players.put(Color.BLACK, PlayerType.COMPUTER);
-            aiCore = new AICore(Color.BLACK);
+            players.put(PieceColor.WHITE, PlayerType.HUMAN);
+            players.put(PieceColor.BLACK, PlayerType.COMPUTER);
+            aiCore = new AICore(PieceColor.BLACK);
         } else {
-            players.put(Color.WHITE, PlayerType.COMPUTER);
-            players.put(Color.BLACK, PlayerType.HUMAN);
-            aiCore = new AICore(Color.WHITE);
+            players.put(PieceColor.WHITE, PlayerType.COMPUTER);
+            players.put(PieceColor.BLACK, PlayerType.HUMAN);
+            aiCore = new AICore(PieceColor.WHITE);
         }
         initCheckersGame();
     }
@@ -61,7 +61,7 @@ public final class GameController {
     private void initCheckersGame(){
         gameState = new GameState();
         gameRules = new GameRules();
-        play(new Move(Color.WHITE));
+        play(new Move(PieceColor.WHITE));
     }
 
     private void play(Move previousMove){
@@ -78,8 +78,8 @@ public final class GameController {
     }
 
     private boolean playerIsHuman(){
-        return gameRules.itsWhiteTurn() && players.get(Color.WHITE) == PlayerType.HUMAN ||
-               gameRules.itsBlackTurn() && players.get(Color.BLACK) == PlayerType.HUMAN;
+        return gameRules.itsWhiteTurn() && players.get(PieceColor.WHITE) == PlayerType.HUMAN ||
+               gameRules.itsBlackTurn() && players.get(PieceColor.BLACK) == PlayerType.HUMAN;
     }
 
     public void takeGameInput(String inputString, Move move) {

@@ -2,14 +2,13 @@ package com.polishdraughts.view.consoleView;
 
 import com.polishdraughts.controller.GameController;
 import com.polishdraughts.controller.ViewController;
-import com.polishdraughts.model.Color;
+import com.polishdraughts.model.PieceColor;
 import com.polishdraughts.controller.GameRules.GameResults;
 import com.polishdraughts.model.GameState;
 import com.polishdraughts.model.Move;
 import com.polishdraughts.view.Renderer;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class ConsoleRenderer implements Renderer {
@@ -127,7 +126,7 @@ public class ConsoleRenderer implements Renderer {
         } else if (move.isChainedMove()){
             displayPlayerMove(move);
         }
-        if (move.getMovingPlayerColor() == Color.WHITE){
+        if (move.getMovingPlayerColor() == PieceColor.WHITE){
             System.out.println("White to move...");
         } else {
             System.out.println("Black to move....");
@@ -141,7 +140,7 @@ public class ConsoleRenderer implements Renderer {
     }
 
     private void displayPlayerMove(Move move){
-        if (move.getMovingPlayerColor() == Color.WHITE){
+        if (move.getMovingPlayerColor() == PieceColor.WHITE){
             System.out.print("White ");
         } else {
             System.out.print("Black ");

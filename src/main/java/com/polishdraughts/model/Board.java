@@ -1,7 +1,6 @@
 package com.polishdraughts.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class Board {
@@ -13,11 +12,11 @@ public class Board {
     }
     
     private void setEmptyBoards(){
-        Color tileColor = Color.WHITE;
+        PieceColor tileColor = PieceColor.WHITE;
         int tileNumber = 1;
         for (int row = 0; row < 10; row++){
             for (int col = 0; col < 10; col++){
-                if (tileColor == Color.BLACK){
+                if (tileColor == PieceColor.BLACK){
                     board[row][col] = tileNumber;
                     boardWithPieces[row][col] = "-";
                     tileNumber++;
@@ -26,7 +25,7 @@ public class Board {
                     boardWithPieces[row][col] = " ";
                 }
                 if (col != 9) {
-                    tileColor = Color.getOppositeColor(tileColor);
+                    tileColor = PieceColor.getOppositeColor(tileColor);
                 }
             }
         }
@@ -60,8 +59,8 @@ public class Board {
         for (HashMap<Integer, Pawn> piecesSet : BlackAndWhitePieces) {
             piecesSet.forEach((fieldNo, pawn) -> {
                 int[] fieldIndex = getTileArrIndex(fieldNo);
-                Color pawnColor = pawn.getPawnColor();
-                if (pawnColor == Color.WHITE){
+                PieceColor pawnColor = pawn.getPawnColor();
+                if (pawnColor == PieceColor.WHITE){
                     if (pawn.isPromoted()){
                         boardWithPieces[fieldIndex[0]][fieldIndex[1]] = "WK";
                     } else {

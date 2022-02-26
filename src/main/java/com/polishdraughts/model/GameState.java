@@ -25,7 +25,7 @@ public class GameState {
     public void makeMove(Move move){
         move.addMoveToTargetFieldMoves(move.getMoveTo());
         move.setLastMove();
-        if (move.getMovingPlayerColor() == Color.WHITE){
+        if (move.getMovingPlayerColor() == PieceColor.WHITE){
             whitePieces.put(move.getMoveTo(), whitePieces.get(move.getMoveFrom()));
             whitePieces.remove(move.getMoveFrom());
         } else {
@@ -71,7 +71,7 @@ public class GameState {
 
     public boolean moveJumpsOneNear(Move move, Integer[] straightLineFields) {
         Integer moveTo = move.getMoveTo();
-        Color playerColor = move.getMovingPlayerColor();
+        PieceColor playerColor = move.getMovingPlayerColor();
         Pawn jumpedPawn;
         try{
             jumpedPawn = getPawn(straightLineFields[0]);
@@ -80,7 +80,7 @@ public class GameState {
         }
 
         if (straightLineFields[1].equals(moveTo)) {
-            if (jumpedPawn.getPawnColor().equals(Color.getOppositeColor(playerColor))){
+            if (jumpedPawn.getPawnColor().equals(PieceColor.getOppositeColor(playerColor))){
                 setMoveTakenPawnFieldNo(move, jumpedPawn);
                 return true;
             } else {
@@ -93,7 +93,7 @@ public class GameState {
 
     public boolean moveJumpsOneFar(Move move, Integer[] straightLineFields) {
         Integer moveTo = move.getMoveTo();
-        Color playerColor = move.getMovingPlayerColor();
+        PieceColor playerColor = move.getMovingPlayerColor();
         Pawn jumpedPawn = null;
         for (int i = 0; i < Arrays.asList(straightLineFields).indexOf(moveTo); i++) {
             try {
@@ -104,7 +104,7 @@ public class GameState {
                 }
             } catch (EmptyFieldException ignored) {}
         }
-        if (jumpedPawn != null && jumpedPawn.getPawnColor().equals(Color.getOppositeColor(playerColor))){
+        if (jumpedPawn != null && jumpedPawn.getPawnColor().equals(PieceColor.getOppositeColor(playerColor))){
             setMoveTakenPawnFieldNo(move, jumpedPawn);
             return true;
         } else {
@@ -125,8 +125,8 @@ public class GameState {
     }
 
     private void setMoveTakenPawnFieldNo(Move move, Pawn takenPawn){
-        Color takenPawnColor = takenPawn.getPawnColor();
-        if (takenPawnColor == Color.WHITE){
+        PieceColor takenPawnColor = takenPawn.getPawnColor();
+        if (takenPawnColor == PieceColor.WHITE){
             move.setTakenPawnFieldNo(getPawnFieldNoFromSet(whitePieces, takenPawn));
         } else {
             move.setTakenPawnFieldNo(getPawnFieldNoFromSet(blackPieces, takenPawn));
