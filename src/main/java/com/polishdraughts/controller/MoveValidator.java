@@ -34,7 +34,7 @@ public class MoveValidator {
         String userInput = move.getCurrentMove();
         if (userInput.contains("-")){
             String[] inputList = userInput.split("-");
-            if (Utilities.isInteger(inputList[0]) && Utilities.isInteger(inputList[1])){
+            if (inputList.length == 2 && Utilities.isInteger(inputList[0]) && Utilities.isInteger(inputList[1])){
                 int moveFrom = Integer.parseInt(inputList[0]);
                 int moveTo = Integer.parseInt(inputList[1]);
                 if(0 < moveFrom && moveFrom <= 50 && 0 < moveTo && moveTo <= 50){

@@ -36,8 +36,8 @@ public class GameState {
             removePawnFromTheGame(move.getTakenPawnFieldNo());
             move.setTakenPawnFieldNo(null);
             move.setMoveTakenPiece(true);
-            move.setMoveTakes(false);
             move.setChainedMove(false);
+            move.setMoveTakes(false);
         }
         move.setMoveFrom(null);
         move.setMoveTo(null);

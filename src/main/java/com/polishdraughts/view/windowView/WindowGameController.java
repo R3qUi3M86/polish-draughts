@@ -7,13 +7,12 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 public class WindowGameController {
-    @FXML
-    private GridPane boardGrid;
-    @FXML
-    private Button tieButton;
     @FXML
     private Label infoPanel;
 
@@ -66,5 +65,12 @@ public class WindowGameController {
 
     public void setPreviousMove(Move previousMove) {
         this.previousMove = previousMove;
+    }
+
+    public void initialize(){
+        DropShadow ds = new DropShadow();
+        ds.setOffsetY(4.0f);
+        ds.setColor(Color.color(0.1f, 0.1f, 0.1f));
+        infoPanel.setEffect(ds);
     }
 }

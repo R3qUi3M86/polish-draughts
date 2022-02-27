@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class WindowRenderer implements Renderer {
     Scene menuScene;
@@ -93,6 +94,7 @@ public class WindowRenderer implements Renderer {
         String[][] boardWithPieces = board.getBoardWithPieces();
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
+                addFieldDropZone(boardGrid, row, col, board.getFieldNo(new int[]{row,col}));
                 switch (boardWithPieces[row][col]) {
                     case "B" -> {
                         addPieceToBoard(boardGrid, row, col, board.getFieldNo(new int[]{row,col}), blackPawnImg);
@@ -105,9 +107,6 @@ public class WindowRenderer implements Renderer {
                     }
                     case "WK" -> {
                         addPieceToBoard(boardGrid, row, col, board.getFieldNo(new int[]{row,col}), whiteQueenImg);
-                    }
-                    case "-" -> {
-                        addFieldDropZone(boardGrid, row, col, board.getFieldNo(new int[]{row,col}));
                     }
                 }
             }
@@ -137,8 +136,50 @@ public class WindowRenderer implements Renderer {
         windowGameController.addDropzoneEnterListener(region);
     }
 
-    public void askForMoveInput(Move previousMove) {
-        windowGameController.setPreviousMove(previousMove);
+    public void askForMoveInput(Move move) {
+        windowGameController.setPreviousMove(move);
+        String info = "";
+        if (move.isNewMove() && move.getOpponentMove() != null){
+            info = getPreviousPlayerMove(move.getOpponentMove());
+        } else if (!move.isValid()){
+            info = getInvalidMoveInfo(move);
+        } else if (move.isChainedMove()){
+            info = getPreviousPlayerMove(move);
+        }
+        if (move.getMovingPlayerColor() == PieceColor.WHITE){
+            info += "\nWhite to move...";
+        } else {
+            info +="\nBlack to move....";
+        }
+        windowGameController.setInfoPanelText(info);
+    }
+
+    private String getPreviousPlayerMove(Move move){
+        String info;
+        if (move.getMovingPlayerColor() == PieceColor.WHITE){
+            info = "White ";
+        } else {
+            info = "Black ";
+        }
+        if (move.moveTakenPiece()){
+            info += "takes: \n";
+        } else {
+            info += "moves: ";
+        }
+        info += move.getLastMove();
+        return info;
+    }
+
+    private String getInvalidMoveInfo(Move move){
+        String info = "";
+        switch (move.getInvalidType()){
+            case WRONG_INPUT_FORMAT -> info = "You have provided \nincorrect move!";
+            case INVALID_TARGET_SQUARE -> info = "Target square is invalid!";
+            case NEEDS_TO_TAKE -> info = "You must play \na taking move!";
+            case NOT_MOVED_WITH_SAME_PIECE -> info= "You must move with \nthe same piece! \nLast move to: "
+                    + move.getLastTargetFieldNo();
+        }
+        return info;
     }
 
     public void renderFinalScore(GameResults gameResult) {

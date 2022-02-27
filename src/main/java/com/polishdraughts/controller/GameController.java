@@ -105,7 +105,7 @@ public final class GameController {
             } else {
                 if (move.moveTakenPiece() && gameRules.playerCanTakeNextPawn(move.getLastTargetFieldNo(), gameState)){
                     move.setChainedMove(true);
-                    move.setMoveTakenPiece(false);
+                    move.setMoveTakenPiece(true);
                     play(move);
                 } else {
                     gameRules.checkPawnPromotion(move, gameState);
