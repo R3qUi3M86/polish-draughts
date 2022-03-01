@@ -25,7 +25,7 @@ public final class ViewController {
         return viewController;
     }
 
-    private RenderModes getRenderMode(){
+    public RenderModes getRenderMode(){
         return renderMode;
     }
 
@@ -47,7 +47,7 @@ public final class ViewController {
         renderer.renderGameState(gameState, false);
     }
 
-    public void askHumanMove(Move previousMove){
+    public void askForMove(Move previousMove){
         renderer.askForMoveInput(previousMove);
     }
 

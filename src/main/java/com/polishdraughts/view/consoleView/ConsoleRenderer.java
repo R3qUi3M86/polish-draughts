@@ -6,6 +6,7 @@ import com.polishdraughts.model.PieceColor;
 import com.polishdraughts.controller.GameRules.GameResults;
 import com.polishdraughts.model.GameState;
 import com.polishdraughts.model.Move;
+import com.polishdraughts.model.PlayerType;
 import com.polishdraughts.view.Renderer;
 
 import java.util.ArrayList;
@@ -114,6 +115,8 @@ public class ConsoleRenderer implements Renderer {
     }
 
     public void askForMoveInput(Move move){
+        PieceColor movingPlayerColor = GameController.getInstance().getGameRules().getCurrentPlayerColor();
+        PlayerType playerType = GameController.getInstance().getPlayers().get(movingPlayerColor);
         if (move.isNewMove() && move.getOpponentMove() != null){
             displayPlayerMove(move.getOpponentMove());
         } else if (!move.isValid()){
@@ -126,12 +129,14 @@ public class ConsoleRenderer implements Renderer {
         } else {
             System.out.println("Black to move....");
         }
-        System.out.println("Please provide input in format FromFieldNo-ToFieldNo (example: 9-14)");
-        System.out.print("Your move input > ");
-        Scanner input = new Scanner(System.in);
-        String inputString = input.nextLine();
-        move.setCurrentMove(inputString);
-        GameController.getInstance().takeGameInput(inputString, move);
+        if (playerType == PlayerType.HUMAN) {
+            System.out.println("Please provide input in format FromFieldNo-ToFieldNo (example: 9-14)");
+            System.out.print("Your move input > ");
+            Scanner input = new Scanner(System.in);
+            String inputString = input.nextLine();
+            move.setCurrentMove(inputString);
+            GameController.getInstance().takeGameInput(inputString, move);
+        }
     }
 
     private void displayPlayerMove(Move move){

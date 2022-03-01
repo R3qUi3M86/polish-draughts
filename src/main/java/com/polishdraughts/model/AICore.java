@@ -5,38 +5,35 @@ import com.polishdraughts.controller.GameRules;
 
 import java.util.*;
 
-public class AICore {
+public class AICore implements Runnable{
     private final PieceColor aiColor;
     private Move bestMove;
-    private final Integer maxDepth = 3;
+    private final Integer maxDepth = 4;
     Integer bestScore = 0;
+    private GameRules gameRules;
+    private GameState gameState;
+    private Move lastMove;
 
     public AICore(PieceColor aiColor){
         this.aiColor = aiColor;
     }
 
-    public void askAiMove(GameRules gameRules, GameState gameState, Move lastMove){
+    public Move askAiMove(GameRules gameRules, GameState gameState, Move lastMove){
         playPotentialMoves(gameRules, gameState, 1, lastMove);
         decideBestMove(gameState, true);
         gameState.getMinMaxMoves().clear();
         lastMove.setCurrentMove(bestMove.getCurrentMove());
-        GameController.getInstance().tryToPlayMove(lastMove);
+        return lastMove;
     }
 
     private void playPotentialMoves(GameRules gameRules, GameState gameState, Integer currDepth, Move lastMove){
         if (currDepth <= maxDepth) {
             ArrayList<Move> potentialMoves = getPotentialMovesList(gameRules, gameState, lastMove);
-            System.out.print(lastMove.getMovingPlayerColor() +" player options; depth "+currDepth+" : ");
-            for (Move move : potentialMoves){
-                System.out.print(move.getCurrentMove() +"*");
-            }
-            System.out.println("");
             for (Move potentialMove : potentialMoves) {
                 try {
                     GameState iterGameState = (GameState) gameState.clone();
                     iterGameState.makeMove(potentialMove);
                     updateMove(potentialMove, gameRules, iterGameState);
-                    System.out.println(potentialMove.getMovingPlayerColor() +" player move: "+ potentialMove.getCurrentMove() +" ;depth: "+currDepth);
                     if (potentialMove.isChainedMove()) {
                         playPotentialMoves(gameRules, iterGameState, currDepth+1, potentialMove);
                     } else {
@@ -85,25 +82,12 @@ public class AICore {
         }
         Set<Integer> emptyFields = gameState.getEmptyFields();
         Set<Integer> pawnFields = pieces.keySet();
-        if (movingPlayerColor == PieceColor.WHITE){
-            System.out.print("White pieces: ");
-            for (Integer pawnField : pawnFields){
-                System.out.print(pawnField+"*");
-            }
-            System.out.println("");
-            System.out.print("Empty fields: ");
-            for (Integer emptyField : emptyFields){
-                System.out.print(emptyField+"*");
-            }
-            System.out.println("");
-        }
         for (Integer pawnField : pawnFields){
             for (Integer emptyField : emptyFields){
                 try{
                     Move potMove = (Move) lastMove.clone();
                     potMove.setCurrentMove(pawnField.toString() + "-" + emptyField.toString());
                     gameRules.getMoveValidator().validateMove(potMove, gameState);
-                    System.out.print(pawnField.toString() + "-" + emptyField.toString()+">"+potMove.getInvalidType()+" ");
                     if (potMove.isValid()){
                         potMoveList.add(potMove);
                     }
@@ -112,7 +96,6 @@ public class AICore {
                 }
             }
         }
-        System.out.println("");
         return potMoveList;
     }
 
@@ -158,5 +141,16 @@ public class AICore {
         } else {
             gameRules.setPawnPromotion(potMove, gameState, true);
         }
+    }
+
+    public void setAiCore(GameRules gameRules, GameState gameState, Move lastMove){
+        this.gameRules = gameRules;
+        this.gameState = gameState;
+        this.lastMove = lastMove;
+    }
+
+    @Override
+    public void run() {
+        askAiMove(gameRules, gameState, lastMove);
     }
 }

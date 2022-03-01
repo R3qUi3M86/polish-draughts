@@ -1,6 +1,5 @@
 package com.polishdraughts.view.windowView;
 import com.polishdraughts.controller.GameController;
-import com.polishdraughts.controller.ViewController;
 import com.polishdraughts.model.PieceColor;
 import com.polishdraughts.model.Move;
 import javafx.event.ActionEvent;

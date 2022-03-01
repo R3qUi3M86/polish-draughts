@@ -1,6 +1,8 @@
 package com.polishdraughts.controller;
 
 import com.polishdraughts.model.*;
+import com.polishdraughts.view.Renderer;
+import javafx.concurrent.Task;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,11 +72,27 @@ public final class GameController {
     }
 
     private void askCurrentPlayerToMove(Move lastMove){
-        if(playerIsHuman()){
-            ViewController.getInstance().askHumanMove(lastMove);
-        } else {
-            aiCore.askAiMove(gameRules, gameState, lastMove);
+        ViewController.getInstance().askForMove(lastMove);
+        if(!playerIsHuman()){
+            if (ViewController.getInstance().getRenderMode() == Renderer.RenderModes.WINDOWED){
+                Task<Move> task = new Task<>() {
+                    @Override
+                    public Move call() {
+                        return aiCore.askAiMove(gameRules, gameState, lastMove);
+                    }
+                };
+                task.setOnSucceeded(t -> GameController.getInstance().tryToPlayMove(task.getValue()));
+                Thread th = new Thread(task);
+                th.setDaemon(true);
+                th.start();
+            } else {
+                GameController.getInstance().tryToPlayMove(aiCore.askAiMove(gameRules, gameState, lastMove));
+            }
         }
+    }
+
+    public Map<PieceColor, PlayerType> getPlayers() {
+        return players;
     }
 
     private boolean playerIsHuman(){

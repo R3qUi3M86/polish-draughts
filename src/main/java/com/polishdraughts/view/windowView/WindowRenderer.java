@@ -4,10 +4,7 @@ import com.polishdraughts.PolishDraughtsWindowed;
 import com.polishdraughts.controller.GameController;
 import com.polishdraughts.controller.GameRules.GameResults;
 import com.polishdraughts.controller.ViewController;
-import com.polishdraughts.model.Board;
-import com.polishdraughts.model.PieceColor;
-import com.polishdraughts.model.GameState;
-import com.polishdraughts.model.Move;
+import com.polishdraughts.model.*;
 import com.polishdraughts.view.Renderer;
 import javafx.scene.image.Image ;
 import javafx.fxml.FXMLLoader;
@@ -106,15 +103,18 @@ public class WindowRenderer implements Renderer {
 
     private void addPieceToBoard(GridPane boardGrid, int row, int col, int fieldNo, Image pieceImg) {
         PieceColor movingPlayerColor = GameController.getInstance().getGameRules().getCurrentPlayerColor();
+        PlayerType playerType = GameController.getInstance().getPlayers().get(movingPlayerColor);
         ImageView piece = new ImageView();
         piece.setImage(pieceImg);
         piece.setFitWidth(70);
         piece.setFitHeight(70);
         piece.setId(String.valueOf(fieldNo));
         boardGrid.add(piece, col, row);
-        if ((movingPlayerColor == PieceColor.WHITE && (pieceImg.equals(whitePawnImg) || pieceImg.equals(whiteQueenImg))) ||
-            (movingPlayerColor == PieceColor.BLACK && (pieceImg.equals(blackPawnImg) || pieceImg.equals(blackQueenImg)))) {
-            windowGameController.makeDraggable(piece);
+        if (playerType != PlayerType.COMPUTER) {
+            if ((movingPlayerColor == PieceColor.WHITE && (pieceImg.equals(whitePawnImg) || pieceImg.equals(whiteQueenImg))) ||
+                (movingPlayerColor == PieceColor.BLACK && (pieceImg.equals(blackPawnImg) || pieceImg.equals(blackQueenImg)))) {
+                windowGameController.makeDraggable(piece);
+            }
         }
     }
 
