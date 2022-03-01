@@ -73,7 +73,7 @@ public final class GameController {
         if(playerIsHuman()){
             ViewController.getInstance().askHumanMove(lastMove);
         } else {
-            aiCore.askAiMove(gameRules, gameState);
+            aiCore.askAiMove(gameRules, gameState, lastMove);
         }
     }
 
@@ -100,6 +100,7 @@ public final class GameController {
         gameRules.getMoveValidator().validateMove(move, gameState);
         if (move.isValid()){
             gameState.makeMove(move);
+            gameState.updateVisualModel();
             if (gameRules.gameHasFinished(gameState)){
                 ViewController.getInstance().displayEndGameStatus(gameRules.getGameResult(), gameState);
             } else {

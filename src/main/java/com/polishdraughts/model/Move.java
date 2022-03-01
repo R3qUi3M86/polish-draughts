@@ -2,7 +2,7 @@ package com.polishdraughts.model;
 
 import java.util.ArrayList;
 
-public class Move {
+public class Move implements Cloneable{
     public enum InvalidMoveType {
         WRONG_INPUT_FORMAT, NOT_SELECTED_OWN_PIECE, INVALID_TARGET_SQUARE, NEEDS_TO_TAKE, NOT_MOVED_WITH_SAME_PIECE
     }
@@ -141,5 +141,10 @@ public class Move {
 
     public void addMoveToTargetFieldMoves(Integer targetField){
         targetFieldMoves.add(targetField);
+    }
+
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
     }
 }

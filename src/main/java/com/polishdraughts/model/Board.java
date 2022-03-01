@@ -46,10 +46,6 @@ public class Board {
         return board[arrIndex[0]][arrIndex[1]];
     }
 
-    public int[][] getEmptyBoard() {
-        return board;
-    }
-
     public String[][] getBoardWithPieces() {
         return boardWithPieces;
     }

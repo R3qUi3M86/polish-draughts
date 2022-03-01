@@ -3,6 +3,7 @@ package com.polishdraughts.view.windowView;
 import com.polishdraughts.PolishDraughtsWindowed;
 import com.polishdraughts.controller.GameController;
 import com.polishdraughts.controller.GameRules.GameResults;
+import com.polishdraughts.controller.ViewController;
 import com.polishdraughts.model.Board;
 import com.polishdraughts.model.PieceColor;
 import com.polishdraughts.model.GameState;
@@ -14,13 +15,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class WindowRenderer implements Renderer {
     Scene menuScene;
@@ -96,18 +95,10 @@ public class WindowRenderer implements Renderer {
             for (int col = 0; col < 10; col++) {
                 addFieldDropZone(boardGrid, row, col, board.getFieldNo(new int[]{row,col}));
                 switch (boardWithPieces[row][col]) {
-                    case "B" -> {
-                        addPieceToBoard(boardGrid, row, col, board.getFieldNo(new int[]{row,col}), blackPawnImg);
-                    }
-                    case "BK" -> {
-                        addPieceToBoard(boardGrid, row, col, board.getFieldNo(new int[]{row,col}), blackQueenImg);
-                    }
-                    case "W" -> {
-                        addPieceToBoard(boardGrid, row, col, board.getFieldNo(new int[]{row,col}), whitePawnImg);
-                    }
-                    case "WK" -> {
-                        addPieceToBoard(boardGrid, row, col, board.getFieldNo(new int[]{row,col}), whiteQueenImg);
-                    }
+                    case "B" -> addPieceToBoard(boardGrid, row, col, board.getFieldNo(new int[]{row,col}), blackPawnImg);
+                    case "BK" -> addPieceToBoard(boardGrid, row, col, board.getFieldNo(new int[]{row,col}), blackQueenImg);
+                    case "W" -> addPieceToBoard(boardGrid, row, col, board.getFieldNo(new int[]{row,col}), whitePawnImg);
+                    case "WK" -> addPieceToBoard(boardGrid, row, col, board.getFieldNo(new int[]{row,col}), whiteQueenImg);
                 }
             }
         }
@@ -193,6 +184,12 @@ public class WindowRenderer implements Renderer {
     }
 
     public void pressAnyKeyPromptForBackToMenu() {
-
+        Button backToMenuBtn = (Button) gameScene.lookup("#backToMenu");
+        backToMenuBtn.setDisable(false);
+        backToMenuBtn.setVisible(true);
+        backToMenuBtn.setOnAction(e -> {
+            gameScene = null;
+            ViewController.getInstance().displayMainMenu();
+        });
     }
 }

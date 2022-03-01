@@ -8,6 +8,10 @@ import javafx.stage.Stage;
 public class PolishDraughtsWindowed extends Application {
     private static Stage window;
 
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void start(Stage stage) {
         window = stage;
@@ -21,10 +25,6 @@ public class PolishDraughtsWindowed extends Application {
         gameController.initMainMenuLabels();
         viewController.displayMainMenu();
         window.show();
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 
     public static Stage getWindow() {

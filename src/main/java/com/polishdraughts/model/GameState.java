@@ -8,12 +8,13 @@ import java.util.HashMap;
 
 import static com.polishdraughts.util.Utilities.getPawnFieldNoFromSet;
 
-public class GameState {
+public class GameState implements Cloneable {
     private final Board gameBoard = new Board();
-    private final HashMap<Integer, Pawn> whitePieces = new HashMap<>();
-    private final HashMap<Integer, Pawn> blackPieces = new HashMap<>();
-    private final ArrayList<HashMap<Integer, Pawn>> allPieces = new ArrayList<>();
+    private HashMap<Integer, Pawn> whitePieces = new HashMap<>();
+    private HashMap<Integer, Pawn> blackPieces = new HashMap<>();
+    private ArrayList<HashMap<Integer, Pawn>> allPieces = new ArrayList<>();
     private final ArrayList<Pawn> takenPieces = new ArrayList<>();
+    private final HashMap<Move, Integer> minMaxMoves = new HashMap<>();
 
     public GameState(){
         setPawnPieces();
@@ -29,6 +30,8 @@ public class GameState {
             whitePieces.put(move.getMoveTo(), whitePieces.get(move.getMoveFrom()));
             whitePieces.remove(move.getMoveFrom());
         } else {
+            System.out.println(move.getMoveTo());
+            System.out.println(move.getMoveFrom());
             blackPieces.put(move.getMoveTo(), blackPieces.get(move.getMoveFrom()));
             blackPieces.remove(move.getMoveFrom());
         }
@@ -41,8 +44,6 @@ public class GameState {
         }
         move.setMoveFrom(null);
         move.setMoveTo(null);
-        move.setCurrentMove(null);
-        gameBoard.updateVisualModel(allPieces);
     }
 
     public void setPawnPieces() {
@@ -153,5 +154,30 @@ public class GameState {
 
     public HashMap<Integer, Pawn> getBlackPieces() {
         return blackPieces;
+    }
+
+    public Object clone() throws CloneNotSupportedException
+    {
+        GameState clonedGameState = (GameState) super.clone();
+        clonedGameState.setWhitePieces(new HashMap<>(whitePieces));
+        clonedGameState.setBlackPieces(new HashMap<>(blackPieces));
+        clonedGameState.setAllPieces(new ArrayList<>(allPieces));
+        return clonedGameState;
+    }
+
+    public HashMap<Move, Integer> getMinMaxMoves() {
+        return minMaxMoves;
+    }
+
+    public void setWhitePieces(HashMap<Integer, Pawn> whitePieces) {
+        this.whitePieces = whitePieces;
+    }
+
+    public void setBlackPieces(HashMap<Integer, Pawn> blackPieces) {
+        this.blackPieces = blackPieces;
+    }
+
+    public void setAllPieces(ArrayList<HashMap<Integer, Pawn>> allPieces) {
+        this.allPieces = allPieces;
     }
 }

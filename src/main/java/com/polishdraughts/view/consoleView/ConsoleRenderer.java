@@ -74,19 +74,14 @@ public class ConsoleRenderer implements Renderer {
         for (int row = 0; row < 10; row++){
             String boardRowFrag = " ";
             for (int col = 0; col < 10; col++) {
-                if (boardWithPieces[row][col].equals("B")) {
-                    boardRowFrag = boardRowFrag.concat(blackPieceRowFrag);
-                } else if (boardWithPieces[row][col].equals("BK")) {
-                    boardRowFrag = boardRowFrag.concat(blackPromPieceRowFrag);
-                } else if (boardWithPieces[row][col].equals("W")) {
-                    boardRowFrag = boardRowFrag.concat(whitePieceRowFrag);
-                } else if (boardWithPieces[row][col].equals("WK")) {
-                    boardRowFrag = boardRowFrag.concat(whitePromPieceRowFrag);
-                } else if (boardWithPieces[row][col].equals(" ")) {
-                    boardRowFrag = boardRowFrag.concat(whiteSquareRowFrag);
-                } else {
-                    boardRowFrag = boardRowFrag.concat(blackSquareRowFrag);
-                }
+                boardRowFrag = switch (boardWithPieces[row][col]) {
+                    case "B" -> boardRowFrag.concat(blackPieceRowFrag);
+                    case "BK" -> boardRowFrag.concat(blackPromPieceRowFrag);
+                    case "W" -> boardRowFrag.concat(whitePieceRowFrag);
+                    case "WK" -> boardRowFrag.concat(whitePromPieceRowFrag);
+                    case " " -> boardRowFrag.concat(whiteSquareRowFrag);
+                    default -> boardRowFrag.concat(blackSquareRowFrag);
+                };
             }
             boardRowFrag = boardRowFrag.concat("| ");
 

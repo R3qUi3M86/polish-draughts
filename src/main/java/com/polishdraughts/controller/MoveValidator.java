@@ -13,7 +13,7 @@ public class MoveValidator {
     public void validateMove(Move move, GameState gameState){
         if (inputIsValidFormat(move)){
             if (selectedOwnPiece(move, gameState)){
-                if (move.getLastMove() != null){
+                if (move.isChainedMove()){
                     if (movedWithSamePiece(move)){
                         checkMoveLegality(move, gameState);
                     } else {

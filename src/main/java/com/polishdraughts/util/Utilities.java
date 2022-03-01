@@ -2,27 +2,22 @@ package com.polishdraughts.util;
 
 import com.polishdraughts.model.Pawn;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 public abstract class Utilities {
     public static boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
-        } catch(NumberFormatException e) {
-            return false;
-        } catch(NullPointerException e) {
+        } catch(NumberFormatException | NullPointerException e) {
             return false;
         }
-        // only got here if we didn't return false
         return true;
     }
 
     public static boolean arrayContains(Integer[] array, Integer i){
         for (Integer element : array){
-            if (i == element){
+            if (Objects.equals(i, element)){
                 return true;
             }
         }

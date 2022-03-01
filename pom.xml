@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.polishdraughts.polishdraughts/com.polishdraughts.PolishDraughtsWindowed
+                                com.polishdraughts/com.polishdraughts.PolishDraughtsWindowed
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

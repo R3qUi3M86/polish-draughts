@@ -1,5 +1,6 @@
 package com.polishdraughts.view.windowView;
 import com.polishdraughts.controller.GameController;
+import com.polishdraughts.controller.ViewController;
 import com.polishdraughts.model.PieceColor;
 import com.polishdraughts.model.Move;
 import javafx.event.ActionEvent;
@@ -8,11 +9,13 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
 public class WindowGameController {
+    @FXML
+    public Button backToMenu;
+    @FXML
+    public Button tieButton;
     @FXML
     private Label infoPanel;
 
@@ -72,5 +75,8 @@ public class WindowGameController {
         ds.setOffsetY(4.0f);
         ds.setColor(Color.color(0.1f, 0.1f, 0.1f));
         infoPanel.setEffect(ds);
+
+        backToMenu.setDisable(true);
+        backToMenu.setVisible(false);
     }
 }
