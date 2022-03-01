@@ -104,7 +104,7 @@ public final class GameController {
             if (gameRules.gameHasFinished(gameState)){
                 ViewController.getInstance().displayEndGameStatus(gameRules.getGameResult(), gameState);
             } else {
-                if (move.moveTakenPiece() && gameRules.playerCanTakeNextPawn(move.getLastTargetFieldNo(), gameState)){
+                if (move.moveTakenPiece() && gameRules.playerCanTakeNextPawn(move.getLastTargetFieldNo(), gameState, move.getMovingPlayerColor())){
                     move.setChainedMove(true);
                     move.setMoveTakenPiece(true);
                     play(move);

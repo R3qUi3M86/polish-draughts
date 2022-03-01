@@ -68,7 +68,7 @@ public class MoveValidator {
                 setMoveValid(move);
             } else {
                 GameRules gameRules = GameController.getInstance().getGameRules();
-                if (move.isChainedMove() || gameRules.playerHasToTake(gameState)){
+                if (move.isChainedMove() || gameRules.playerHasToTake(gameState, move)){
                     setMoveInvalid(move, Move.InvalidMoveType.NEEDS_TO_TAKE);
                 } else {
                     setMoveValid(move);
@@ -84,7 +84,7 @@ public class MoveValidator {
         Integer moveFrom = move.getMoveFrom();
         Integer moveTo = move.getMoveTo();
         Integer[] moveDirFields = gameBoard.getFieldsLineInMoveDir(moveFrom, moveTo);
-        if (gameBoard.fieldIsEmpty(moveTo) && arrayContains(moveDirFields, moveTo)) {
+        if (gameState.getEmptyFields().contains(moveTo) && arrayContains(moveDirFields, moveTo)) {
             if (movingPawn.isPromoted()) {
                 if (gameState.moveJumpsOneFar(move, moveDirFields)) {
                     move.setMoveTakes(true);

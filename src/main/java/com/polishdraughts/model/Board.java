@@ -73,11 +73,6 @@ public class Board {
         }
     }
 
-    public boolean fieldIsEmpty(Integer fieldNo){
-        int[] fieldIndex = getTileArrIndex(fieldNo);
-        return boardWithPieces[fieldIndex[0]][fieldIndex[1]].equals("-");
-    }
-
     public Integer[] getFieldsLineInMoveDir(Integer moveFrom, Integer moveTo){
         int[] moveFromIndex = getTileArrIndex(moveFrom);
         int[] moveToIndex = getTileArrIndex(moveTo);

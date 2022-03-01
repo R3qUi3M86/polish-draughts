@@ -2,9 +2,7 @@ package com.polishdraughts.model;
 
 import com.polishdraughts.controller.EmptyFieldException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 import static com.polishdraughts.util.Utilities.getPawnFieldNoFromSet;
 
@@ -14,7 +12,7 @@ public class GameState implements Cloneable {
     private HashMap<Integer, Pawn> blackPieces = new HashMap<>();
     private ArrayList<HashMap<Integer, Pawn>> allPieces = new ArrayList<>();
     private final ArrayList<Pawn> takenPieces = new ArrayList<>();
-    private final HashMap<Move, Integer> minMaxMoves = new HashMap<>();
+    private HashMap<Move, Integer> minMaxMoves = new HashMap<>();
 
     public GameState(){
         setPawnPieces();
@@ -146,6 +144,16 @@ public class GameState implements Cloneable {
         gameBoard.updateVisualModel(allPieces);
     }
 
+    public Set<Integer> getEmptyFields(){
+        Set<Integer> emptyFields = new HashSet<>();
+        for (int i = 1; i <= 50; i++){
+            if (!getBlackPieces().containsKey(i) && !getWhitePieces().containsKey(i)){
+                emptyFields.add(i);
+            }
+        }
+        return emptyFields;
+    }
+
     public HashMap<Integer, Pawn> getWhitePieces() {
         return whitePieces;
     }
@@ -160,11 +168,16 @@ public class GameState implements Cloneable {
         clonedGameState.setWhitePieces(new HashMap<>(whitePieces));
         clonedGameState.setBlackPieces(new HashMap<>(blackPieces));
         clonedGameState.setAllPieces(new ArrayList<>(allPieces));
+        clonedGameState.setMinMaxMoves(new HashMap<>());
         return clonedGameState;
     }
 
     public HashMap<Move, Integer> getMinMaxMoves() {
         return minMaxMoves;
+    }
+
+    public void setMinMaxMoves(HashMap<Move, Integer> minMaxMoves) {
+        this.minMaxMoves = minMaxMoves;
     }
 
     public void setWhitePieces(HashMap<Integer, Pawn> whitePieces) {

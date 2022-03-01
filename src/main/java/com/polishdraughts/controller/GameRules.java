@@ -37,7 +37,7 @@ public class GameRules {
         currentPlayerColor = PieceColor.getOppositeColor(currentPlayerColor);
     }
 
-    public boolean playerCanTakeNextPawn(Integer moveFrom, GameState gameState){
+    public boolean playerCanTakeNextPawn(Integer moveFrom, GameState gameState, PieceColor movingPlayerColor){
         boolean pawnIsPromoted = false;
         try {
             pawnIsPromoted = gameState.getPawn(moveFrom).isPromoted();
@@ -47,8 +47,8 @@ public class GameRules {
         for (Integer moveDir : adjacentFields){
             Integer[] fieldsInLine = gameState.getGameBoard().getFieldsLineInMoveDir(moveFrom, moveDir);
             for (int i = 0; i < 9; i++){
-                if (fieldsInLine[i] != null && gameState.getGameBoard().fieldIsEmpty(fieldsInLine[i])) {
-                    Move move = new Move(currentPlayerColor);
+                if (fieldsInLine[i] != null && gameState.getEmptyFields().contains(fieldsInLine[i])) {
+                    Move move = new Move(movingPlayerColor);
                     move.setMoveFrom(moveFrom);
                     move.setMoveTo(fieldsInLine[i]);
                     if ((gameState.moveJumpsOneFar(move, fieldsInLine) && pawnIsPromoted) ||
@@ -61,16 +61,16 @@ public class GameRules {
         return false;
     }
 
-    public boolean playerHasToTake(GameState gameState){
-        if (currentPlayerColor == PieceColor.WHITE){
+    public boolean playerHasToTake(GameState gameState, Move move){
+        if (move.getMovingPlayerColor() == PieceColor.WHITE){
             for (Integer playerPawnField : gameState.getWhitePieces().keySet()){
-                if (playerCanTakeNextPawn(playerPawnField, gameState)){
+                if (playerCanTakeNextPawn(playerPawnField, gameState, move.getMovingPlayerColor())){
                     return true;
                 }
             }
         } else {
             for (Integer playerPawnField : gameState.getBlackPieces().keySet()){
-                if (playerCanTakeNextPawn(playerPawnField, gameState)){
+                if (playerCanTakeNextPawn(playerPawnField, gameState, move.getMovingPlayerColor())){
                     return true;
                 }
             }
