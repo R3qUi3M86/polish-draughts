@@ -17,7 +17,8 @@ public class AICore {
         playPotentialMoves(gameRules, gameState, lastMove);
         decideBestMove(gameState);
         gameState.getMinMaxMoves().clear();
-        GameController.getInstance().tryToPlayMove(bestMove);
+        lastMove.setCurrentMove(bestMove.getCurrentMove());
+        GameController.getInstance().tryToPlayMove(lastMove);
     }
 
     private void playPotentialMoves(GameRules gameRules, GameState gameState, Move lastMove){
@@ -26,7 +27,8 @@ public class AICore {
             try {
                 GameState iterGameState = (GameState) gameState.clone();
                 iterGameState.makeMove(potentialMove);
-                scoreGameState(gameState, iterGameState, potentialMove);
+                updateMove(potentialMove, gameRules, iterGameState);
+                scoreGameState(potentialMove, gameState, iterGameState);
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
             }
@@ -83,28 +85,36 @@ public class AICore {
         return emptyFields;
     }
 
-    private void scoreGameState(GameState previousGameState, GameState iterGameState, Move potentialMove){
+    private void scoreGameState(Move potentialMove, GameState origGameState, GameState iterGameState){
         Integer blackPiecesCount = iterGameState.getBlackPieces().size();
         Integer whitePiecesCount = iterGameState.getWhitePieces().size();
         int score;
         if (aiColor == PieceColor.BLACK){
-            score = blackPiecesCount - whitePiecesCount;
+            score = blackPiecesCount + getPromotedScore(iterGameState.getBlackPieces()) -
+                    (whitePiecesCount + getPromotedScore(iterGameState.getWhitePieces()));
         } else {
-            score = whitePiecesCount - blackPiecesCount;
+            score = whitePiecesCount + getPromotedScore(iterGameState.getWhitePieces()) -
+                    (blackPiecesCount + getPromotedScore(iterGameState.getBlackPieces()));
         }
-        previousGameState.getMinMaxMoves().put(potentialMove, score);
+        origGameState.getMinMaxMoves().put(potentialMove, score);
     }
 
-//    private void (Move potMove, GameRules gameRules, GameState gameState){
-//            if (potMove.moveTakenPiece() && gameRules.playerCanTakeNextPawn(potMove.getLastTargetFieldNo(), gameState)){
-//                potMove.setChainedMove(true);
-//                potMove.setMoveTakenPiece(true);
-//                play(move);
-//            } else {
-////                gameRules.checkPawnPromotion(potMove, gameState);
-////                gameRules.switchCurrentPlayer();
-////                play(new Move(gameRules.getCurrentPlayerColor(), potMove));
-//            }
-//        }
-//    }
+    private Integer getPromotedScore(HashMap<Integer, Pawn> pieces){
+        int promScore = 0;
+        for (Integer pawnField : pieces.keySet()){
+            if (pieces.get(pawnField).isPromoted()){
+                promScore += 4;
+            }
+        }
+        return promScore;
+    }
+
+    private void updateMove(Move potMove, GameRules gameRules, GameState gameState){
+        if (potMove.moveTakenPiece() && gameRules.playerCanTakeNextPawn(potMove.getLastTargetFieldNo(), gameState)){
+            potMove.setChainedMove(true);
+            potMove.setMoveTakenPiece(true);
+        } else {
+            gameRules.setPawnPromotion(potMove, gameState, true);
+        }
+    }
 }

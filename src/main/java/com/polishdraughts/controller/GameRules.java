@@ -78,14 +78,22 @@ public class GameRules {
         return false;
     }
 
-    public void checkPawnPromotion(Move move, GameState gameState){
+    public void setPawnPromotion(Move move, GameState gameState, boolean clone){
         Integer tileNo = move.getLastTargetFieldNo();
         if (move.getMovingPlayerColor() == PieceColor.WHITE && tileNo < 6){
-            gameState.getWhitePieces().get(tileNo).setPromoted(true);
-            gameState.updateVisualModel();
+            if (clone){
+                Pawn clonedPawn = new Pawn(PieceColor.WHITE, true);
+                gameState.getWhitePieces().put(tileNo, clonedPawn);
+            } else {
+                gameState.getWhitePieces().get(tileNo).setPromoted(true);
+            }
         } else if (move.getMovingPlayerColor() == PieceColor.BLACK && tileNo > 45){
-            gameState.getBlackPieces().get(tileNo).setPromoted(true);
-            gameState.updateVisualModel();
+            if (clone){
+                Pawn clonedPawn = new Pawn(PieceColor.BLACK, true);
+                gameState.getWhitePieces().put(tileNo, clonedPawn);
+            } else {
+                gameState.getBlackPieces().get(tileNo).setPromoted(true);
+            }
         }
     }
 

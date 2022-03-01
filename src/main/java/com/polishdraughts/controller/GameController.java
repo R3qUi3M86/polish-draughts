@@ -109,8 +109,9 @@ public final class GameController {
                     move.setMoveTakenPiece(true);
                     play(move);
                 } else {
-                    gameRules.checkPawnPromotion(move, gameState);
+                    gameRules.setPawnPromotion(move, gameState, false);
                     gameRules.switchCurrentPlayer();
+                    gameState.updateVisualModel();
                     play(new Move(gameRules.getCurrentPlayerColor(), move));
                 }
             }

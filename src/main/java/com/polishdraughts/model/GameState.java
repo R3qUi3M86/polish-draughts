@@ -30,8 +30,6 @@ public class GameState implements Cloneable {
             whitePieces.put(move.getMoveTo(), whitePieces.get(move.getMoveFrom()));
             whitePieces.remove(move.getMoveFrom());
         } else {
-            System.out.println(move.getMoveTo());
-            System.out.println(move.getMoveFrom());
             blackPieces.put(move.getMoveTo(), blackPieces.get(move.getMoveFrom()));
             blackPieces.remove(move.getMoveFrom());
         }

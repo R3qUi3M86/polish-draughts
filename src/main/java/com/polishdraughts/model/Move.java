@@ -20,7 +20,7 @@ public class Move implements Cloneable{
     private Move opponentMove;
     private String lastMove;
     private String currentMove;
-    private final ArrayList<Integer> targetFieldMoves = new ArrayList<>();
+    private ArrayList<Integer> targetFieldMoves = new ArrayList<>();
 
     public Move(PieceColor movingPlayerColor){
         this.movingPlayerColor = movingPlayerColor;
@@ -145,6 +145,12 @@ public class Move implements Cloneable{
 
     public Object clone() throws CloneNotSupportedException
     {
-        return super.clone();
+        Move clonedMove = (Move) super.clone();
+        clonedMove.setTargetFieldMoves(new ArrayList<>(targetFieldMoves));
+        return clonedMove;
+    }
+
+    public void setTargetFieldMoves(ArrayList<Integer> targetFieldMoves) {
+        this.targetFieldMoves = targetFieldMoves;
     }
 }
