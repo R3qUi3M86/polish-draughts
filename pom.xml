@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.polish-draughts</groupId>
+    <groupId>com.polishdraughts</groupId>
     <artifactId>polish-draughts</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>polish-draughts</name>
@@ -18,12 +18,12 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17.0.1</version>
+            <version>17.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17.0.1</version>
+            <version>17.0.2</version>
         </dependency>
 
         <dependency>
@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.polishdraughts/com.polishdraughts.PolishDraughtsWindowed
+                                com.polishdraughts/com.polishdraughts.PolishDraughtsWindowedLauncher
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
